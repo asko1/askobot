@@ -8,11 +8,17 @@ exports.run = (client, message, args, guildConf) => {
         return message.channel.send("Missing arguments!");
     }
     // Get key and value from args
-    const [prop, ...value] = args;
+    var [prop, ...value] = args;
 
     // Checks if config exists
     if(!client.settings.has(message.guild.id, prop)) {
         return message.channel.send("This key is not in the configuration.");
+    }
+    if (prop == "modLogChannel") {
+        gChnls = client.getChannels(message, value)
+        value = gChnls[1];
+        client.settings.set(message.guild.id, value, prop);
+        return message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value}\``);
     }
 
     // Changes config
