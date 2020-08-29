@@ -26,7 +26,7 @@ exports.run = (client, message, args, guildConf) => {
         client.settings.set(message.guild.id, value.join(" "), prop);
 
         // Send confirmation
-        message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value.join(" ")}\``);
+        message.channel.send(`Guild configuration item ${prop} has been changed to:\n${value.join(" ")}`);
     } catch (error) {
         return client.logger.error(`${error}`);
     }
