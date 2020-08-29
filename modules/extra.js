@@ -1,4 +1,4 @@
-module.exports = (client) => {
+module.exports = (client, Discord) => {
     client.getChannels = (message, args) => {
         if (args.length == 0) {
             message.channel.send("Please specify a channel")
@@ -20,5 +20,11 @@ module.exports = (client) => {
             }        
         }}
         return [chnl, chnlID];
+    }
+
+    client.createEmbed = () => {
+        var embed = new Discord.MessageEmbed()
+            .setColor(client.config.color);
+        return embed;
     }
 }

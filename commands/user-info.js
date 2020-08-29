@@ -7,8 +7,7 @@ exports.run = (client, message, args) => {
         u = message.mentions.members.first().user;
         member = message.mentions.members.first();
     }
-    var embed = new client.Discord.MessageEmbed()
-        .setColor(client.config.color)
+    var embed = client.createEmbed()
         .setTitle("User Information")
         .setAuthor(u.tag, u.avatarURL())
         .setThumbnail(u.avatarURL())
