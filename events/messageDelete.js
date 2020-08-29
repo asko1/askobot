@@ -1,7 +1,10 @@
 module.exports = (client, message) => {
     const guildConf = client.settings.ensure(message.guild.id, client.config.defaultSettings);
+
+    if (guildConf.modLogChannel == "") return;
+
     var embed = new client.Discord.MessageEmbed()
-        .setColor(client.color)
+        .setColor("FF0000")
         .setAuthor(message.author.tag, message.author.avatarURL())
         .addFields(
         {name: "Deleted Message", value: message.content},
