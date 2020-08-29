@@ -6,7 +6,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 client.config = require("./config.js");
 client.logger = require("./modules/Logger.js");
-require("./modules/extra.js")(client);
+require("./modules/extra.js")(client, Discord);
 client.timeFormat = "Y-MM-DD HH:mm:ss Z [UTC]"; //moment.js format
 client.Discord = Discord; //this may be silly but for example it allows making embeds without having to import the discord.js module
 
