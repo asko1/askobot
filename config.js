@@ -1,7 +1,7 @@
 const config = {
 "defaultSettings" : { //defaults for server configs
     "prefix": "!",
-    "modLogChannel": "mod-log"
+    "modLogChannel": ""
   },
 "color": "3DF5FF" // color for embeds
 };
