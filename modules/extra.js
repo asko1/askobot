@@ -15,8 +15,7 @@ module.exports = (client, Discord) => {
             if (error instanceof TypeError) {
                 return;
             } else {
-                client.logger.error(`${error}`)
-                return;
+                return client.logger.error(`${error}`);
             }        
         }}
         return [chnl, chnlID];
