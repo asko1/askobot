@@ -40,6 +40,7 @@ fs.readdir("./commands/", (err, files) => {
 // Logs that bot is ready
 client.on('ready', () => {
     client.logger.log(`${client.user.tag}, ready to serve ${client.users.cache.size} users in ${client.guilds.cache.size} servers.`, "ready");
+    client.setActivity();
 });
 
 // For when shit hits the fan

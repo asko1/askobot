@@ -26,4 +26,15 @@ module.exports = (client, Discord) => {
             .setColor(client.config.color);
         return embed;
     }
+    client.setActivity = () => {
+        activity1 = () => {
+            client.user.setActivity('Asko', {type: "WATCHING"});
+            setTimeout(activity2, 30000);
+        }        
+        activity2 = () => {
+            client.user.setActivity('with Asko', {type: "PLAYING"});
+            setTimeout(activity1, 5000);
+        }
+        activity1();
+    }
 }
