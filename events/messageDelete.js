@@ -1,7 +1,8 @@
 module.exports = (client, message) => {
     const guildConf = client.settings.ensure(message.guild.id, client.config.defaultSettings);
 
-    if (guildConf.modLogChannel == "") return;
+    if (message.author.bot) return;
+    else if (guildConf.modLogChannel == "") return;
 
     var embed = new client.Discord.MessageEmbed()
         .setColor("FF0000")
