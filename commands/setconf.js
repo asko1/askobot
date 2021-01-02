@@ -15,8 +15,7 @@ exports.run = (client, message, args, guildConf) => {
         return message.channel.send("This key is not in the configuration.");
     }
     if (prop == "modLogChannel") {
-        gChnls = client.getChannels(message, value)
-        value = gChnls[1];
+        value = client.getChannels(message, value)[1]
         client.settings.set(message.guild.id, value, prop);
         return message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value}\``);
     }
