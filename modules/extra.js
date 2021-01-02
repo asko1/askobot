@@ -21,8 +21,8 @@ module.exports = (client, Discord) => {
         return [chnl, chnlID];
     }
 
-    client.createEmbed = () => {
-        var embed = new Discord.MessageEmbed()
+    client.createEmbed = (e) => {
+        var embed = new Discord.MessageEmbed(e)
             .setColor(client.config.color);
         return embed;
     }
