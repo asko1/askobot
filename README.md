@@ -1,8 +1,7 @@
 # chairbot
-A Discord bot to replace all the other bots.
+To run
 
-That's all I got for now.
+`npm install`
+Note that installing Visual Studio Tools to install some packages (primarily enmap), may be required.
 
-I'm very ambitious.
-
-I'm gonna cry later for aiming too high.
+`node main.js`
