@@ -1,4 +1,4 @@
-# chairbot
+# askobot
 To run
 
 `npm install`
