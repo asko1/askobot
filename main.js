@@ -1,14 +1,14 @@
 const fs = require("fs");
 const Enmap = require("enmap");
-const Discord = require("discord.js");
+const { Intents, Client, MessageEmbed } = require("discord.js");
 
 //to-do: move some of these to config
-const client = new Discord.Client();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
 client.config = require("./config.js");
 client.logger = require("./modules/Logger.js");
-require("./modules/extra.js")(client, Discord);
+require("./modules/extra.js")(client, MessageEmbed);
 client.timeFormat = "Y-MM-DD HH:mm:ss Z [UTC]"; //moment.js format
-client.Discord = Discord; //this may be silly but for example it allows making embeds without having to import the discord.js module
 
 client.login(client.config.token)
 

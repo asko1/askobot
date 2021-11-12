@@ -1,9 +1,9 @@
 exports.run = (client, message, args) => {
     gChnls = client.getChannels(message, args)
     if (gChnls == undefined) return;
-    chnl = gChnls[0]
-    chnlID = gChnls[1];
-    message.channel.send(`${chnl}` + " " + chnlID);
+    channel = gChnls[0]
+    channelId = gChnls[1];
+    message.channel.send(`${channel}` + " " + channelId);
 }
 
 exports.help = {

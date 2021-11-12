@@ -1,12 +1,12 @@
 exports.run = (client, message, args) => {
-    var string = "";
+    var commands = "";
     client.commands.forEach((value, key) => {
-        string += key + ": " + value.help.description + "\n";
+        commands += key + ": " + value.help.description + "\n";
     });
-    var embed = new client.Discord.MessageEmbed()
+    var embed = client.createEmbed()
         .setColor(client.config.color)
-        .addFields({name: "Commands", value: string});
-    message.channel.send(embed).catch(console.error);
+        .addFields({name: "Commands", value: commands});
+    message.channel.send({ embeds: [embed] }).catch(console.error);
 }
 exports.help = {
     description: "It helps",

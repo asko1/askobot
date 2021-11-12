@@ -1,16 +1,16 @@
-module.exports = (client, Discord) => {
+module.exports = (client, MessageEmbed) => {
     client.getChannels = (message, args) => {
         if (args.length == 0) {
             message.channel.send("Please specify a channel")
             return;
         }
         if (message.mentions.channels.size !== 0) {
-            chnl = message.mentions.channels.first();
-            chnlID = chnl.id;
+            channel = message.mentions.channels.first();
+            channelId = channel.id;
         }
         else {try {
-            chnl = client.channels.cache.get(args[0]);
-            chnlID = chnl.id;
+            channel = client.channels.cache.get(args[0]);
+            channelId = channel.id;
         } catch (error) {
             if (error instanceof TypeError) {
                 return;
@@ -18,11 +18,11 @@ module.exports = (client, Discord) => {
                 return client.logger.error(`${error}`);
             }        
         }}
-        return [chnl, chnlID];
+        return [channel, channelId];
     }
 
     client.createEmbed = (e) => {
-        var embed = new Discord.MessageEmbed(e)
+        var embed = new MessageEmbed(e)
             .setColor(client.config.color);
         return embed;
     }

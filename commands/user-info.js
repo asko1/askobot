@@ -1,20 +1,20 @@
 const moment = require("moment");
 
 exports.run = (client, message, args) => {
-    var u = message.author
-    var member = message.guild.member(message.author);
+    var targetUser = message.author // targetUser is the user that sent the command, unless...
+    var member = message.guild.members.cache.get(message.author.id);
     if (message.mentions.members.size !== 0) {
-        u = message.mentions.members.first().user;
+        targetUser = message.mentions.members.first().user; // ...there's an user mentioned, then targetUser is the mentioned user
         member = message.mentions.members.first();
     }
     var embed = client.createEmbed()
         .setTitle("User Information")
-        .setAuthor(u.tag, u.avatarURL())
-        .setThumbnail(u.avatarURL())
+        .setAuthor(targetUser.tag, targetUser.avatarURL())
+        .setThumbnail(targetUser.avatarURL())
         .addFields(
-            {name: "ID", value: u.id, inline: true},
+            {name: "Id", value: targetUser.id, inline: true},
             {name: "Nickname", value: member.displayName, inline: true},
-            {name: "Account Creation", value: moment(u.createdAt).format(client.timeFormat)},
+            {name: "Account Creation", value: moment(targetUser.createdAt).format(client.timeFormat)},
             {name: "Server Join Date", value: moment(member.joinedAt).format(client.timeFormat)}
         );
     var roles = "";
@@ -23,7 +23,7 @@ exports.run = (client, message, args) => {
         roles += `${element} `
     });
     embed.addFields({name: `Roles (${member.roles.cache.size})`, value: roles});
-    message.channel.send(embed).catch(console.error);
+    message.channel.send({ embeds: [embed] }).catch(client.logger.error);
 }
 
 exports.help = {
