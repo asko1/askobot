@@ -22,4 +22,4 @@ module.exports = (client, message) => {
     cmd.run(client, message, args, guildConf);
     // Logs it
     client.logger.log(`${message.author.tag} ran ${command}`, "cmd")
-  };
+}
