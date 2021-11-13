@@ -1,10 +1,12 @@
 const config = {
     "token": "your_token_here",
-    "defaultSettings" : { //defaults for server configs
+    // defaults for server configs
+    "defaultSettings" : {
         "prefix": "!",
-        "modLogChannel": ""
-      },
-    "color": "3DF5FF" // color for embeds
-    };
-    
-    module.exports = config;
+        "modLogChannel": "",
+    },
+    // color for embeds
+    "color": "3DF5FF",
+};
+
+module.exports = config;

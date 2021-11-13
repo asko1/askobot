@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "chalk": "^4.1.0",
@@ -6,5 +9,8 @@
     "discord.js": "^13.3.1",
     "enmap": "^5.8.2",
     "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0"
   }
 }

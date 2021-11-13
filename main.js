@@ -8,36 +8,38 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 client.config = require("./config.js");
 client.logger = require("./modules/Logger.js");
 require("./modules/extra.js")(client, MessageEmbed);
-client.timeFormat = "Y-MM-DD HH:mm:ss Z [UTC]"; //moment.js format
+// moment.js format
+client.timeFormat = "Y-MM-DD HH:mm:ss Z [UTC]";
 
-client.login(client.config.token)
+client.login(client.config.token);
 
 // Storing commands and settings
 client.commands = new Enmap();
-client.settings = new Enmap({name: "settings"});
+client.settings = new Enmap({ name: "settings" });
 
 
 // Loads events
 const events = fs.readdirSync("./events/").filter(file => file.endsWith(".js"));
-  for (const file of events) {
-    const event = require(`./events/${file}`); //requires event file
-    let eventName = file.split(".")[0]; //event name is the file name without the extension (e.g "main" if the file is main.js)
+for (const file of events) {
+    const event = require(`./events/${file}`);
+    // event name is the file name without the extension (e.g "main" if the file is main.js)
+    const eventName = file.split(".")[0];
     client.logger.log(`Loading event: ${eventName}`);
-    client.on(eventName, event.bind(null, client)); //binds event to client
+    client.on(eventName, event.bind(null, client));
 }
 
 // Loads commands
 const commands = fs.readdirSync("./commands/").filter(file => file.endsWith(".js"));
-  for (const file of commands) {
+for (const file of commands) {
     if (!file.endsWith(".js")) return;
-    let props = require(`./commands/${file}`);
-    let commandName = file.split(".")[0];
+    const props = require(`./commands/${file}`);
+    const commandName = file.split(".")[0];
     client.logger.log(`Attempting to load command ${commandName}`, "log");
     client.commands.set(commandName, props);
 }
 
 // Logs that bot is ready
-client.on('ready', () => {
+client.on("ready", () => {
     client.logger.log(`${client.user.tag}, ready to serve ${client.users.cache.size} users in ${client.guilds.cache.size} servers.`, "ready");
     client.setActivity();
 });
@@ -49,9 +51,9 @@ process.on("uncaughtException", (err) => {
     client.logger.error(`Uncaught Exception: ${errorMsg}`);
     console.error(err);
     process.exit(1);
-  });
+});
 
-  process.on("unhandledRejection", err => {
+process.on("unhandledRejection", err => {
     client.logger.error(`Unhandled rejection: ${err}`);
     console.error(err);
-  });
+});
