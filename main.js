@@ -24,7 +24,7 @@ const events = fs.readdirSync("./events/").filter(file => file.endsWith(".js"));
     let eventName = file.split(".")[0]; //event name is the file name without the extension (e.g "main" if the file is main.js)
     client.logger.log(`Loading event: ${eventName}`);
     client.on(eventName, event.bind(null, client)); //binds event to client
-};
+}
 
 // Loads commands
 const commands = fs.readdirSync("./commands/").filter(file => file.endsWith(".js"));
@@ -34,7 +34,7 @@ const commands = fs.readdirSync("./commands/").filter(file => file.endsWith(".js
     let commandName = file.split(".")[0];
     client.logger.log(`Attempting to load command ${commandName}`, "log");
     client.commands.set(commandName, props);
-};
+}
 
 // Logs that bot is ready
 client.on('ready', () => {

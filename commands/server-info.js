@@ -23,11 +23,11 @@ exports.run = async (client, message, args) => {
 
     // Gets amount of bots
     server.members.cache.forEach(member => {
-        if (member.user.bot == true) botCount += 1;
+        if (member.user.bot === true) botCount += 1;
     })
     
     // Bot or bots?
-    if (botCount == 1) {
+    if (botCount === 1) {
         botCountStr = botCount + " bot";
     } else botCountStr = botCount + " bots";
 

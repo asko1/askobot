@@ -7,7 +7,8 @@ exports.run = (client, message, args) => {
         .setColor(client.config.color)
         .addFields({name: "Commands", value: commands});
     message.channel.send({ embeds: [embed] }).catch(console.error);
-}
+};
+
 exports.help = {
     description: "It helps",
     category: "Utility"

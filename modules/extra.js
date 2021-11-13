@@ -1,6 +1,6 @@
 module.exports = (client, MessageEmbed) => {
     client.getChannels = (message, args) => {
-        if (args.length == 0) {
+        if (args.length === 0) {
             message.channel.send("Please specify a channel")
             return;
         }
