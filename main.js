@@ -2,7 +2,7 @@ const fs = require("fs");
 const Enmap = require("enmap");
 const { Intents, Client, MessageEmbed } = require("discord.js");
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS] });
 
 // etc. configuration parameters
 client.config = require("./config.js");
@@ -32,10 +32,10 @@ for (const file of events) {
 const commands = fs.readdirSync("./commands/").filter(file => file.endsWith(".js"));
 for (const file of commands) {
     if (!file.endsWith(".js")) return;
-    const props = require(`./commands/${file}`);
+    const properties = require(`./commands/${file}`);
     const commandName = file.split(".")[0];
     client.logger.log(`Attempting to load command ${commandName}`, "log");
-    client.commands.set(commandName, props);
+    client.commands.set(commandName, properties);
 }
 
 // Logs that bot is ready

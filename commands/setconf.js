@@ -1,6 +1,6 @@
-exports.run = (client, message, args, guildConf) => {
-    const member = message.guild.member(message.author);
-    if (!member.hasPermission("MANAGE_GUILD")) {
+exports.run = (client, message, args) => {
+    const member = message.guild.members.cache.get(message.author.id);
+    if (!member.permissions.has("MANAGE_GUILD")) {
         return message.channel.send({ content: "You do not have the permissions to run this command." });
     }
 

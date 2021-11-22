@@ -1,7 +1,7 @@
-exports.run = (client, message, args, guildConf) => {
+exports.run = async (client, message, args, guildConf) => {
 
-    const member = message.guild.member(message.author);
-    if (!member.hasPermission("MANAGE_GUILD")) {
+    const member = message.guild.members.cache.get(message.author.id);
+    if (!member.permissions.has("MANAGE_GUILD")) {
         return message.channel.send("You do not have the permissions to run this command.");
     }
 
@@ -14,51 +14,79 @@ exports.run = (client, message, args, guildConf) => {
         return (reaction.emoji.name == "❌") && user.id === message.author.id;
     };
 
-    const userFilter = m => message.author.id === m.author.id;
-
-    const options = { time: 60000, max: 1, errors: ["time"] };
-
+    const userFilter = (m) => {
+        return m.author.id == message.author.id;
+    };
     const start = client.createEmbed()
         .setDescription("This embed will go through each server config variable and will prompt you to change them at which point you can input a new value or skip it.\
          React with :white_check_mark: to continue, or with :x: to cancel.");
-    msg = message.channel.send(start).then(msg => { // Message is the message which the command was ran with, msg is the embed
-        msg.react("✅")
-            .then(() => msg.react("❌"));
-        msg.awaitReactions(filter, options)
 
-            .then(collected => {
+    message.channel.send({ embeds: [start] }).then(msg => {
+        msg.react("✅")
+            .then(() => msg.react("❌"))
+            .then(() => {
+                const collector = msg.createReactionCollector({ filter, time: 30000, max: 1 });
+                collector.on("collect", (reaction) => {
+                    if (reaction.emoji.name === "✅") {
+                        client.logger.log("User confirmed setup.");
+                        collector.stop();
+                        return configs();
+                    }
+                });
+            });
+
+        /* .then(collected => {
                 if (collected.first().emoji.name === "✅") {
+                    console.logger.log("User confirmed setup.");
                     return configs();
                 }
                 else if (collected.first().emoji.name === "❌") {
                     msg.delete();
                     return;
                 }
-            });
+            }); */
     });
-    configs = () => {
-        Array.from(Object.keys(guildConf)).forEach(prop => {
-            const embed = client.createEmbed()
-                .setTitle(prop)
-                .setDescription(`Insert a new value for ${prop} or react with ❌ to skip.`);
-            query = message.channel.send(embed).then(query => {
-                query.react("❌");
-                query.awaitReactions(filter2, options)
-                    .then(collected => {
-                        return;
-                    });
 
-                message.channel.awaitMessages(userFilter, options)
-                    .then(messages => {
-                        mesg = messages.first();
-                        val = mesg.content;
-                        if (prop == "modLogChannel") {
-                            val = client.getChannels(mesg, mesg.content)[1];
-                        }
-                        client.settings.set(message.guild.id, val, prop);
-                        return message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${val}\``);
-                    });
-            });
+    let index = 0;
+    const properties = Array.from(Object.keys(guildConf));
+
+    const configs = async () => {
+        if (index == properties.length) {
+            return message.channel.send({ content: "Setup complete." });
+        }
+        let val;
+
+        const embed = client.createEmbed()
+            .setTitle(properties[index])
+            .setDescription(`Insert a new value for ${properties[index]} or react with ❌ to skip.`);
+        const query = message.channel.send({ embeds: [embed] });
+        await query.react("❌");
+        const collector = query.createReactionCollector({ filter: filter2, time: 30000, max: 1 });
+        const messages = message.channel.createMessageCollector({ filter: userFilter, time: 30000, max: 1 });
+        // client.logger.log("we made it here");
+
+        messages.on("collect", async (msg) => {
+            client.logger.log(`${msg.content}`);
+            val = msg.content;
+
+            if (properties[index] == "modLogChannel") {
+                val = client.getChannels(msg, val)[1];
+            }
+            await client.settings.set(message.guild.id, val, properties[index]);
+            await message.channel.send(`Guild configuration item ${properties[index]} has been changed to:\n\`${val}\``);
+            index++;
+            return configs();
+        });
+
+        collector.on("collect", async (reaction, user) => {
+            client.logger.log(reaction.emoji.name);
+            client.logger.log(user.tag);
+            if (reaction.emoji.name === "❌") {
+                client.logger.log("User cancelled setup.");
+                client.logger.log(`${index}`);
+                index++;
+                return configs();
+            }
         });
     };
 };

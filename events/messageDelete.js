@@ -4,11 +4,11 @@ module.exports = (client, message) => {
     if (message.author.bot) return;
     else if (guildConf.modLogChannel == "") return;
 
-    const embed = new client.Discord.MessageEmbed()
+    const embed = client.createEmbed()
         .setColor("FF0000")
         .setAuthor(message.author.tag, message.author.avatarURL())
         .addFields(
             { name: "Deleted Message", value: message.content },
             { name: "Channel", value: `${message.channel}` });
-    client.channels.cache.get(guildConf.modLogChannel).send(embed).catch(console.error);
+    client.channels.cache.get(guildConf.modLogChannel).send({ embeds: [embed] }).catch(console.error);
 };
